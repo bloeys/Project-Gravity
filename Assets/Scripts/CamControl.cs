@@ -10,7 +10,7 @@ public class CamControl : MonoBehaviour
     Camera cam;
     int index = 0;
 
-    private void Start()
+    void Start()
     {
         cam = GetComponent<Camera>();
     }
@@ -35,11 +35,23 @@ public class CamControl : MonoBehaviour
             target = GravityController.bodies[index].transform;
         }
 
-        transform.position = new Vector3(target.position.x, transform.position.y, target.position.z);
+        //Follow target
+        transform.position = new Vector3(target.position.x, target.position.y + cam.farClipPlane / 2, target.position.z);
 
+        //Zoom and camera y-position
         if (Input.mouseScrollDelta.y < 0)
-            cam.orthographicSize = Mathf.Clamp(cam.orthographicSize + zoomSpd, 400, 10000);
+        {
+            if (Input.GetKey(KeyCode.LeftControl))
+                transform.position += Vector3.up * zoomSpd;
+            else
+                cam.orthographicSize = Mathf.Clamp(cam.orthographicSize + zoomSpd, 400, 10000);
+        }
         else if (Input.mouseScrollDelta.y > 0)
-            cam.orthographicSize = Mathf.Clamp(cam.orthographicSize - zoomSpd, 400, 10000);
+        {
+            if (Input.GetKey(KeyCode.LeftControl))
+                transform.position -= Vector3.up * zoomSpd;
+            else
+                cam.orthographicSize = Mathf.Clamp(cam.orthographicSize - zoomSpd, 400, 10000);
+        }
     }
 }
