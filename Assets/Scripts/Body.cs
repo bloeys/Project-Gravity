@@ -11,7 +11,7 @@ public class Body : MonoBehaviour
     Material[] mats;
 
     public Vector3 initialVel;
-    public bool randomize = true;
+    public bool randomize = true, inPlane = false;
     public Vector2 massLimits;
     public float velLimit;
     [Range(1, 20)]
@@ -36,7 +36,7 @@ public class Body : MonoBehaviour
         else
         {
             rb.mass = Random.Range(massLimits.x, massLimits.y) * Random.Range(1, massMulti);
-            rb.velocity = new Vector3(Random.Range(-velLimit, velLimit), Random.Range(-velLimit, velLimit), Random.Range(-velLimit, velLimit));
+            rb.velocity = new Vector3(Random.Range(-velLimit, velLimit), inPlane ? 0 : Random.Range(-velLimit, velLimit), Random.Range(-velLimit, velLimit));
         }
         GravityController.AddToBodies(this);
     }
