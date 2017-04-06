@@ -31,7 +31,7 @@ public class CamControl : MonoBehaviour
             index--;
             if (index < 0)
                 index = GravityController.bodies.Count - 1;
-
+            
             target = GravityController.bodies[index].transform;
         }
 
